@@ -29,6 +29,11 @@ docker context use desktop-linux
 minikube start
 ```
 
+Generate a kubeconfig file dedicated for Terraform:
+```bash
+kubectl config view --minify --flatten > minikube-kubeconfig.yaml
+```
+
 ## 🛠️ Deployment Steps
 
 1. Initialize Terraform:

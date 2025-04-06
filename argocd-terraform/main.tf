@@ -1,18 +1,20 @@
-# This Terraform configuration deploys ArgoCD using the Helm provider.
+# This Terraform configuration sets up a Helm provider to manage Kubernetes resources using Helm charts.
 # 
-# - The `helm` provider is configured to interact with a Kubernetes cluster using the kubeconfig file located at `~/.kube/config` and the context set to `minikube`.
+# - The `provider "helm"` block configures the Helm provider to use a specific kubeconfig file for connecting to a Kubernetes cluster.
+#   - `config_path`: Specifies the path to the kubeconfig file, which is dynamically set to `minikube-kubeconfig.yaml` in the current module directory.
 # 
-# - A Helm release resource (`helm_release`) is defined to install the ArgoCD Helm chart:
-#   - The release is named "argocd" and is deployed in the "argocd" namespace.
-#   - The chart used is "argo-cd" from the official Argo Helm repository: `https://argoproj.github.io/argo-helm`.
-#   - The specific version of the chart being installed is `7.8.23`.
-#   - The `create_namespace` attribute ensures that the "argocd" namespace is created if it does not already exist.
-#   - Custom values for the Helm chart are provided via a `values.yaml` file located in the same module directory as the Terraform configuration.
+# - The `resource "helm_release" "argocd"` block defines a Helm release for deploying Argo CD in the Kubernetes cluster.
+#   - `name`: The name of the Helm release, set to "argocd".
+#   - `namespace`: The Kubernetes namespace where the release will be deployed, set to "argocd".
+#   - `chart`: Specifies the Helm chart to use, in this case, "argo-cd".
+#   - `repository`: The URL of the Helm chart repository, pointing to the official Argo Helm repository.
+#   - `version`: The specific version of the Helm chart to deploy, set to "7.8.23".
+#   - `create_namespace`: A boolean flag to automatically create the namespace if it does not exist.
+#   - `values`: A list of custom values files to override default chart values, referencing the `values.yaml` file in the current module directory.
 
 provider "helm" {
   kubernetes {
-    config_path = "~/.kube/config"
-    context     = "minikube"
+    config_path = "${path.module}/minikube-kubeconfig.yaml"
   }
 }
 
