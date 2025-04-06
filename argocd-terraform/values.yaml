@@ -1,0 +1,22 @@
+
+# This YAML configuration file is used to define settings for an ArgoCD deployment.
+# 
+# server:
+#   - Configures the ArgoCD server service.
+#   - `service.type`: Specifies the type of Kubernetes service. In this case, it is set to `NodePort`.
+#   - To retrieve the accessible URL of the ArgoCD Web UI run 
+#   - minikube service argocd-server -n argocd --url
+#   - Get the admin password with
+#   - kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d && echo
+#
+# configs:
+#   - Contains additional configuration parameters for the ArgoCD server.
+#   - `params.server.insecure`: A boolean flag to enable or disable insecure mode for the server. 
+#     When set to `true`, it allows insecure connections.
+server:
+  service:
+    type: NodePort
+
+configs:
+  params:
+    server.insecure: true
