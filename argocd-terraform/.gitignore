@@ -1,2 +1,4 @@
 minikube-kubeconfig.yaml
-.terraform
+*.tfstate
+*.tfstate.*
+.terraform/
